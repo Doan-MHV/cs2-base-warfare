@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Base Warfare 2D Panorama UI — Interactive Simulator</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    /* Exact 1:1 styles mirrored from base_warfare_hud.css */
+    .cs2-viewport {
+      background:
+        radial-gradient(circle at 75% 25%, rgba(235, 195, 130, 0.18), transparent 45%),
+        linear-gradient(180deg, #3c4a57 0%, #5c5040 48%, #473b2d 52%, #29231c 100%);
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      user-select: none;
+    }
+
+    .LeftHudCard {
+      width: 390px;
+      padding: 14px 16px;
+      background-color: rgba(17, 23, 31, 0.91);
+      border: 1px solid rgba(216, 173, 82, 0.4);
+      border-left: 4px solid #e5b653;
+      border-radius: 4px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+    }
+
+    .LeftHudTitle {
+      color: #e5b653;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .LeftHudCash {
+      color: #66e386;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .DividerLine {
+      width: 100%;
+      height: 1px;
+      background-color: rgba(255, 255, 255, 0.1);
+      margin: 6px 0;
+    }
+
+    .TeamRow {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 5px 8px;
+      margin-bottom: 4px;
+      background-color: rgba(27, 36, 48, 0.8);
+      border-radius: 3px;
+    }
+
+    .TeamBadge {
+      width: 38px;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+      padding: 2px 0;
+      margin-right: 10px;
+      border-radius: 2px;
+    }
+
+    .CtBadge {
+      background-color: #2b5b84;
+      color: #b8e2ff;
+    }
+
+    .TBadge {
+      background-color: #7d5722;
+      color: #ffe0a3;
+    }
+
+    .TeamStatsText {
+      color: #f0f4f8;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .AlertBanner {
+      display: none;
+      width: 100%;
+      padding: 6px 10px;
+      margin-top: 4px;
+      background-color: rgba(110, 27, 27, 0.9);
+      border: 1px solid #ff5555;
+      border-radius: 3px;
+      text-align: center;
+    }
+
+    .AlertBanner.IsAlert {
+      display: block;
+    }
+
+    .AlertBannerText {
+      color: #ffd6d6;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .StatusBanner {
+      width: 100%;
+      padding: 6px 10px;
+      background-color: #1c2530;
+      border: 1px solid #3a4b5c;
+      border-radius: 3px;
+      text-align: center;
+    }
+
+    .StatusBanner.InBase {
+      background-color: rgba(22, 56, 38, 0.9);
+      border: 1px solid #4cd97b;
+    }
+
+    .StatusBannerText {
+      color: #c8d6e5;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .StatusBanner.InBase .StatusBannerText {
+      color: #7dffaa;
+    }
+
+    /* Centered Base Shop Dashboard */
+    .ShopDashboard {
+      display: none;
+      width: 820px;
+      max-width: 94%;
+      padding: 20px 24px;
+      background-color: rgba(19, 27, 36, 0.97);
+      border: 2px solid #d8ad52;
+      border-radius: 6px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75);
+    }
+
+    .ShopDashboard.IsOpen {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ShopTitle {
+      color: #e5b653;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .ShopSubTitle {
+      color: #9fb3c8;
+      font-size: 13px;
+      margin-top: 2px;
+    }
+
+    .ShopCashBadge {
+      padding: 8px 16px;
+      background-color: #163826;
+      border: 1px solid #4cd97b;
+      border-radius: 4px;
+      color: #66e386;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .ShopDividerGold {
+      width: 100%;
+      height: 1px;
+      background-color: rgba(216, 173, 82, 0.33);
+      margin: 10px 0 12px 0;
+    }
+
+    .ColumnHeader {
+      color: #d8ad52;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .ShopItemButton {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 9px 14px;
+      margin-bottom: 7px;
+      background-color: #1e2936;
+      border: 1px solid #324354;
+      border-radius: 4px;
+      text-align: left;
+      transition: all 0.1s ease;
+      cursor: pointer;
+    }
+
+    .ShopItemButton:hover {
+      background-color: #2b3b4e;
+      border-color: #e5b653;
+    }
+
+    .ShopItemButton.Selected {
+      background-color: #263829;
+      border-color: #59d97c;
+    }
+
+    .PerkButton {
+      background-color: #1c2636;
+      border-color: #384d6b;
+    }
+
+    .PerkButton:hover {
+      background-color: #293852;
+      border-color: #e5b653;
+    }
+
+    .ShopItemTitle {
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .ShopItemDesc {
+      color: #9fb3c8;
+      font-size: 12px;
+      margin-top: 1px;
+    }
+
+    .ShopItemPrice {
+      color: #66e386;
+      font-size: 17px;
+      font-weight: 700;
+      margin-left: 12px;
+    }
+
+    .ShopUtilityButton {
+      width: 100%;
+      padding: 11px 14px;
+      margin-top: 4px;
+      background-color: #2d2616;
+      border: 1px solid #d8ad52;
+      border-radius: 4px;
+      color: #ffe08a;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .ShopUtilityButton:hover {
+      background-color: #45391e;
+      border-color: #ffda7b;
+    }
+
+    .CloseShopButton {
+      padding: 7px 22px;
+      background-color: #3b2020;
+      border: 1px solid #cc4b4b;
+      border-radius: 4px;
+      color: #ffdede;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .CloseShopButton:hover {
+      background-color: #592b2b;
+      border-color: #ff6b6b;
+    }
+  </style>
+</head>
+<body class="bg-[var(--background)] text-[var(--foreground)] antialiased p-4">
+
+  <!-- Simulator Control Toolbar -->
+  <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 mb-4 shadow-sm">
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+      <div>
+        <h2 class="text-base font-bold text-[var(--foreground)]">Base Warfare 2D Panorama UI — Live Simulator (`de_dust2`)</h2>
+        <p class="text-xs text-[var(--muted-foreground)]">
+          Mirrors <code>base_warfare_hud.xml</code> &amp; <code>base_warfare_hud.css</code>. Click items with your mouse or press <b>R</b> (Shop), <b>W/S</b> (Select), and <b>E</b> (Buy).
+        </p>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <button id="ctrlToggleShop" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30">
+          Toggle Shop [R] (Open)
+        </button>
+        <button id="ctrlToggleBase" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30">
+          Zone: In Home Base
+        </button>
+        <button id="ctrlToggleAlert" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-red-500/20 text-red-300 border border-red-500/40 hover:bg-red-500/30">
+          Base Attack Alert: OFF
+        </button>
+        <button id="ctrlResetPerks" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)] border border-[var(--border)]">
+          Reset Perks / Respawn
+        </button>
+      </div>
+    </div>
+
+    <!-- Score & Capture Sliders -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs pt-2 border-t border-[var(--border)]">
+      <label class="flex flex-col gap-1">
+        <span class="text-[var(--muted-foreground)]">CT Kills: <b id="lblCtKills" class="text-[var(--foreground)]">34</b> / 100</span>
+        <input id="rngCtKills" type="range" min="0" max="100" value="34" />
+      </label>
+      <label class="flex flex-col gap-1">
+        <span class="text-[var(--muted-foreground)]">CT Base Capture: <b id="lblCtCap" class="text-[var(--foreground)]">25%</b></span>
+        <input id="rngCtCap" type="range" min="0" max="100" value="25" />
+      </label>
+      <label class="flex flex-col gap-1">
+        <span class="text-[var(--muted-foreground)]">T Kills: <b id="lblTKills" class="text-[var(--foreground)]">28</b> / 100</span>
+        <input id="rngTKills" type="range" min="0" max="100" value="28" />
+      </label>
+      <label class="flex flex-col gap-1">
+        <span class="text-[var(--muted-foreground)]">T Base Capture: <b id="lblTCap" class="text-[var(--foreground)]">10%</b></span>
+        <input id="rngTCap" type="range" min="0" max="100" value="10" />
+      </label>
+    </div>
+  </div>
+
+  <!-- Simulated 16:9 CS2 Game Screen -->
+  <div class="cs2-viewport relative w-full rounded-xl overflow-hidden border border-[var(--border)] shadow-xl" style="min-height: 620px; padding: 24px;">
+
+    <!-- Top-Left Fake CS2 Radar & Top Match Bar -->
+    <div class="flex items-start justify-between pointer-events-none mb-4">
+      <div class="w-32 h-32 rounded-full border-2 border-white/30 bg-black/50 flex flex-col items-center justify-center text-xs text-white/70">
+        <span class="font-bold text-amber-300/90">de_dust2</span>
+        <span class="text-white/50">CT Spawn</span>
+      </div>
+      <div class="px-4 py-1.5 rounded bg-black/60 border border-white/15 text-xs font-bold text-white/90 tracking-wider">
+        CT 34  —  [ 59:12 ]  —  28 T
+      </div>
+      <div class="text-right text-xs text-white/70 bg-black/40 px-3 py-1.5 rounded border border-white/10">
+        <div>Equipped: <b id="simEquippedWeapon" class="text-amber-300">USP-S</b></div>
+        <div>Stim Pack [X]: <b class="text-emerald-400">READY (+50 HP)</b></div>
+      </div>
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- 1. ALWAYS-VISIBLE 2D LEFT-SCREEN TACTICAL HUD (LeftHudPanel)       -->
+    <!-- ================================================================== -->
+    <div id="LeftHudPanel" class="LeftHudCard my-4">
+      <div class="flex items-center justify-between mb-1.5">
+        <span class="LeftHudTitle">BASE WARFARE</span>
+        <span id="HudCashLabel" class="LeftHudCash">$16,000</span>
+      </div>
+
+      <div class="DividerLine"></div>
+
+      <div class="TeamRow">
+        <span class="TeamBadge CtBadge">CT</span>
+        <span id="CtStatsLabel" class="TeamStatsText">KILLS: 34 / 100   •   CAP: 25%</span>
+      </div>
+
+      <div class="TeamRow">
+        <span class="TeamBadge TBadge">T</span>
+        <span id="TStatsLabel" class="TeamStatsText">KILLS: 28 / 100   •   CAP: 10%</span>
+      </div>
+
+      <div id="AlertBanner" class="AlertBanner">
+        <span id="AlertTextLabel" class="AlertBannerText">!! WARNING: 2 T CAPTURING YOUR BASE (45%) !!</span>
+      </div>
+
+      <div class="DividerLine"></div>
+
+      <div id="StatusBanner" class="StatusBanner InBase">
+        <span id="StatusTextLabel" class="StatusBannerText">[IN HOME BASE — PRESS R OR CLICK CLOSE]</span>
+      </div>
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- 2. INTERACTIVE CENTERED BASE SHOP DASHBOARD (ShopOverlay)          -->
+    <!-- ================================================================== -->
+    <div class="flex items-center justify-center my-2">
+      <div id="ShopOverlay" class="ShopDashboard IsOpen">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-1">
+          <div>
+            <div class="ShopTitle">BASE WARFARE  •  ARMORY &amp; PERKS</div>
+            <div id="ShopSubTitle" class="ShopSubTitle">Active Perks: None (Click any Weapon or Perk below to purchase)</div>
+          </div>
+          <div id="ShopCashDisplay" class="ShopCashBadge">BALANCE: $16,000</div>
+        </div>
+
+        <div class="ShopDividerGold"></div>
+
+        <!-- Two Columns -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Weapons Column -->
+          <div>
+            <div class="ColumnHeader">WEAPONS</div>
+
+            <button class="ShopItemButton Selected" data-idx="0">
+              <div>
+                <div class="ShopItemTitle">1. AK-47</div>
+                <div class="ShopItemDesc">Heavy Assault Rifle  •  One-Tap Headshot</div>
+              </div>
+              <div class="ShopItemPrice">$2,700</div>
+            </button>
+
+            <button class="ShopItemButton" data-idx="1">
+              <div>
+                <div class="ShopItemTitle">2. M4A1-S</div>
+                <div class="ShopItemDesc">Silenced Carbine  •  High Precision</div>
+              </div>
+              <div class="ShopItemPrice">$2,900</div>
+            </button>
+
+            <button class="ShopItemButton" data-idx="2">
+              <div>
+                <div class="ShopItemTitle">3. AWP</div>
+                <div class="ShopItemDesc">Bolt-Action Sniper  •  Lethal Stopping Power</div>
+              </div>
+              <div class="ShopItemPrice">$4,750</div>
+            </button>
+
+            <button class="ShopItemButton" data-idx="3">
+              <div>
+                <div class="ShopItemTitle">4. Desert Eagle</div>
+                <div class="ShopItemDesc">Hand Cannon  •  High-Caliber Sidearm</div>
+              </div>
+              <div class="ShopItemPrice">$700</div>
+            </button>
+
+            <button class="ShopItemButton" data-idx="4">
+              <div>
+                <div class="ShopItemTitle">5. MP9 + Kevlar</div>
+                <div class="ShopItemDesc">High-ROF SMG  •  Includes Body Armor</div>
+              </div>
+              <div class="ShopItemPrice">$1,250</div>
+            </button>
+          </div>
+
+          <!-- Perks Column -->
+          <div>
+            <div class="ColumnHeader">COMBAT PERKS (ACTIVE UNTIL DEATH)</div>
+
+            <button class="ShopItemButton PerkButton" data-idx="5">
+              <div>
+                <div class="ShopItemTitle">6. Speed Boost (1.35x)</div>
+                <div class="ShopItemDesc">+35% Faster Sprint &amp; Strafe Speed</div>
+              </div>
+              <div class="ShopItemPrice">$2,000</div>
+            </button>
+
+            <button class="ShopItemButton PerkButton" data-idx="6">
+              <div>
+                <div class="ShopItemTitle">7. Juggernaut (225 HP)</div>
+                <div class="ShopItemDesc">225 Health + Full Kevlar &amp; Helmet</div>
+              </div>
+              <div class="ShopItemPrice">$3,000</div>
+            </button>
+
+            <button class="ShopItemButton PerkButton" data-idx="7">
+              <div>
+                <div class="ShopItemTitle">8. Vampire (+35 HP/Kill)</div>
+                <div class="ShopItemDesc">Restore +35 HP Instantly on Every Kill</div>
+              </div>
+              <div class="ShopItemPrice">$2,500</div>
+            </button>
+
+            <button class="ShopItemButton PerkButton" data-idx="8">
+              <div>
+                <div class="ShopItemTitle">9. Moon Gravity (0.55x)</div>
+                <div class="ShopItemDesc">Low Gravity for Elevated Jump Mobility</div>
+              </div>
+              <div class="ShopItemPrice">$1,500</div>
+            </button>
+
+            <button id="btn_grant_cash" class="ShopUtilityButton">
+              + GRANT $30,000 TEST CASH (!cash)
+            </button>
+          </div>
+        </div>
+
+        <div class="ShopDividerGold"></div>
+
+        <!-- Footer -->
+        <div class="flex items-center justify-between">
+          <span id="simFeedback" class="text-xs text-slate-400">
+            Click any item to buy  •  [W/S] Select &amp; [E] Buy  •  [R] Open / Close Shop
+          </span>
+          <button id="btn_close_shop" class="CloseShopButton">CLOSE [R]</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Native CS2 Health / Armor / Cash Bar -->
+    <div class="flex items-center justify-between mt-6 pt-3 border-t border-white/10 text-white/90 text-sm font-bold pointer-events-none">
+      <div class="flex items-center gap-4">
+        <span id="simBottomCash" class="text-emerald-400 text-lg">$16,000</span>
+        <span class="px-2 py-0.5 rounded bg-emerald-500/30 border border-emerald-400/50 text-xs text-emerald-200">BUYZONE</span>
+      </div>
+      <div class="flex items-center gap-6">
+        <span>HP: <b id="simHp" class="text-xl text-white">100</b></span>
+        <span>ARMOR: <b id="simArmor" class="text-xl text-white">100</b></span>
+      </div>
+      <div class="text-xs text-white/70">
+        [X] Medi-Shot (+50 HP)  •  No C4
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const catalog = [
+      { id: 1, name: "AK-47", cost: 2700, isWeapon: true },
+      { id: 2, name: "M4A1-S", cost: 2900, isWeapon: true },
+      { id: 3, name: "AWP", cost: 4750, isWeapon: true },
+      { id: 4, name: "Desert Eagle", cost: 700, isWeapon: true },
+      { id: 5, name: "MP9 + Kevlar", cost: 1250, isWeapon: true },
+      { id: 6, name: "Speed 1.35x", cost: 2000, isWeapon: false },
+      { id: 7, name: "Juggernaut 225HP", cost: 3000, isWeapon: false },
+      { id: 8, name: "Vampire +35HP", cost: 2500, isWeapon: false },
+      { id: 9, name: "Moon Gravity", cost: 1500, isWeapon: false }
+    ];
+
+    let state = {
+      cash: 16000,
+      hp: 100,
+      inHomeBase: true,
+      shopOpen: true,
+      alertActive: false,
+      selectedIndex: 0,
+      ctKills: 34,
+      ctCap: 25,
+      tKills: 28,
+      tCap: 10,
+      activePerks: new Set(),
+      equipped: "USP-S"
+    };
+
+    function render() {
+      const cashStr = "$" + state.cash.toLocaleString();
+      document.getElementById("HudCashLabel").textContent = cashStr;
+      document.getElementById("ShopCashDisplay").textContent = "BALANCE: " + cashStr;
+      document.getElementById("simBottomCash").textContent = cashStr;
+      document.getElementById("simHp").textContent = state.hp;
+      document.getElementById("simEquippedWeapon").textContent = state.equipped;
+
+      document.getElementById("CtStatsLabel").textContent =
+        `KILLS: ${state.ctKills} / 100   •   CAP: ${state.ctCap}%`;
+      document.getElementById("TStatsLabel").textContent =
+        `KILLS: ${state.tKills} / 100   •   CAP: ${state.tCap}%`;
+
+      const alertBanner = document.getElementById("AlertBanner");
+      alertBanner.classList.toggle("IsAlert", state.alertActive);
+
+      const statusBanner = document.getElementById("StatusBanner");
+      const statusText = document.getElementById("StatusTextLabel");
+      statusBanner.classList.toggle("InBase", state.inHomeBase);
+
+      const effectiveShopOpen = state.inHomeBase && state.shopOpen;
+      statusText.textContent = state.inHomeBase
+        ? (effectiveShopOpen ? "[IN HOME BASE — PRESS R OR CLICK CLOSE]" : "[IN HOME BASE — PRESS R FOR BASE SHOP]")
+        : "[IN COMBAT — RETURN TO BASE FOR SHOP]";
+
+      const shopOverlay = document.getElementById("ShopOverlay");
+      shopOverlay.classList.toggle("IsOpen", effectiveShopOpen);
+
+      const perksArr = Array.from(state.activePerks);
+      document.getElementById("ShopSubTitle").textContent = perksArr.length > 0
+        ? "Active Perks: " + perksArr.join(" • ")
+        : "Active Perks: None (Click any Weapon or Perk below to purchase)";
+
+      document.querySelectorAll(".ShopItemButton").forEach((btn, idx) => {
+        btn.classList.toggle("Selected", idx === state.selectedIndex);
+      });
+
+      document.getElementById("ctrlToggleShop").textContent =
+        `Toggle Shop [R] (${effectiveShopOpen ? "Open" : "Closed"})`;
+      document.getElementById("ctrlToggleBase").textContent =
+        `Zone: ${state.inHomeBase ? "In Home Base" : "In Combat (Outside Base)"}`;
+      document.getElementById("ctrlToggleAlert").textContent =
+        `Base Attack Alert: ${state.alertActive ? "ON" : "OFF"}`;
+    }
+
+    function tryBuy(index) {
+      state.selectedIndex = index;
+      const item = catalog[index];
+      const feedback = document.getElementById("simFeedback");
+
+      if (!state.inHomeBase) {
+        feedback.textContent = "[Base Shop] You must stand inside Home Base Buyzone to purchase!";
+        feedback.className = "text-xs text-red-400 font-semibold";
+        render();
+        return;
+      }
+
+      if (!item.isWeapon && state.activePerks.has(item.name)) {
+        feedback.textContent = `[Base Shop] You already have ${item.name} active!`;
+        feedback.className = "text-xs text-amber-300 font-semibold";
+        render();
+        return;
+      }
+
+      if (state.cash < item.cost) {
+        feedback.textContent = `[Base Shop] Need $${item.cost.toLocaleString()} for ${item.name}! Click '+ GRANT $30,000 TEST CASH'.`;
+        feedback.className = "text-xs text-red-400 font-semibold";
+        render();
+        return;
+      }
+
+      state.cash -= item.cost;
+      if (item.isWeapon) {
+        state.equipped = item.name;
+      } else {
+        state.activePerks.add(item.name);
+        if (item.id === 7) state.hp = 225;
+      }
+
+      feedback.textContent = `[Base Shop] Purchased ${item.name} (-$${item.cost.toLocaleString()})!`;
+      feedback.className = "text-xs text-emerald-400 font-semibold";
+      render();
+    }
+
+    document.querySelectorAll(".ShopItemButton").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        tryBuy(parseInt(btn.getAttribute("data-idx"), 10));
+      });
+    });
+
+    document.getElementById("btn_grant_cash").addEventListener("click", () => {
+      state.cash = 30000;
+      const feedback = document.getElementById("simFeedback");
+      feedback.textContent = "[Base Shop] Cash set to $30,000!";
+      feedback.className = "text-xs text-amber-300 font-semibold";
+      render();
+    });
+
+    document.getElementById("btn_close_shop").addEventListener("click", () => {
+      state.shopOpen = false;
+      render();
+    });
+
+    document.getElementById("ctrlToggleShop").addEventListener("click", () => {
+      if (!state.inHomeBase) state.inHomeBase = true;
+      state.shopOpen = !state.shopOpen;
+      render();
+    });
+
+    document.getElementById("ctrlToggleBase").addEventListener("click", () => {
+      state.inHomeBase = !state.inHomeBase;
+      if (!state.inHomeBase) state.shopOpen = false;
+      render();
+    });
+
+    document.getElementById("ctrlToggleAlert").addEventListener("click", () => {
+      state.alertActive = !state.alertActive;
+      render();
+    });
+
+    document.getElementById("ctrlResetPerks").addEventListener("click", () => {
+      state.activePerks.clear();
+      state.hp = 100;
+      state.equipped = "USP-S";
+      render();
+    });
+
+    ["CtKills", "CtCap", "TKills", "TCap"].forEach((key) => {
+      const input = document.getElementById("rng" + key);
+      const lbl = document.getElementById("lbl" + key);
+      input.addEventListener("input", () => {
+        const val = parseInt(input.value, 10);
+        lbl.textContent = key.endsWith("Cap") ? val + "%" : val;
+        if (key === "CtKills") state.ctKills = val;
+        if (key === "CtCap") state.ctCap = val;
+        if (key === "TKills") state.tKills = val;
+        if (key === "TCap") state.tCap = val;
+        render();
+      });
+    });
+
+    window.addEventListener("keydown", (e) => {
+      const k = e.key.toLowerCase();
+      if (k === "r") {
+        if (state.inHomeBase) state.shopOpen = !state.shopOpen;
+        render();
+      } else if (state.inHomeBase && state.shopOpen) {
+        if (k === "w" || e.key === "ArrowUp") {
+          e.preventDefault();
+          state.selectedIndex = (state.selectedIndex - 1 + catalog.length) % catalog.length;
+          render();
+        } else if (k === "s" || e.key === "ArrowDown") {
+          e.preventDefault();
+          state.selectedIndex = (state.selectedIndex + 1) % catalog.length;
+          render();
+        } else if (k === "e" || e.key === "Enter") {
+          e.preventDefault();
+          tryBuy(state.selectedIndex);
+        }
+      }
+    });
+
+    render();
+  </script>
+</body>
+</html>

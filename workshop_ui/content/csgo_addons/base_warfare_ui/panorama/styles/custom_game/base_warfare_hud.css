@@ -1,0 +1,373 @@
+.BaseWarfareRoot
+{
+    width: 100%;
+    height: 100%;
+}
+
+/* ========================================================================== */
+/* 1. LEFT-SCREEN PASSIVE TACTICAL HUD CARD                                   */
+/* ========================================================================== */
+.LeftHudCard
+{
+    width: 390px;
+    horizontal-align: left;
+    vertical-align: center;
+    margin-left: 24px;
+    margin-top: -110px;
+    padding: 14px 16px;
+    flow-children: down;
+    background-color: #11171fe8;
+    border: 1px solid #d8ad5266;
+    border-left: 4px solid #e5b653;
+    border-radius: 4px;
+}
+
+.LeftHudHeaderRow
+{
+    width: 100%;
+    flow-children: right;
+    margin-bottom: 6px;
+}
+
+.LeftHudTitle
+{
+    width: fill-parent-flow(1.0);
+    color: #e5b653;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.LeftHudCash
+{
+    color: #66e386;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.DividerLine
+{
+    width: 100%;
+    height: 1px;
+    background-color: #ffffff1a;
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.TeamRow
+{
+    width: 100%;
+    flow-children: right;
+    padding: 5px 8px;
+    margin-bottom: 4px;
+    background-color: #1b2430cc;
+    border-radius: 3px;
+}
+
+.TeamBadge
+{
+    width: 38px;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    padding: 2px 0px;
+    margin-right: 10px;
+    border-radius: 2px;
+}
+
+.CtBadge
+{
+    background-color: #2b5b84;
+    color: #b8e2ff;
+}
+
+.TBadge
+{
+    background-color: #7d5722;
+    color: #ffe0a3;
+}
+
+.TeamStatsText
+{
+    color: #f0f4f8;
+    font-size: 16px;
+    font-weight: semi-bold;
+    vertical-align: center;
+}
+
+.AlertBanner
+{
+    visibility: collapse;
+    width: 100%;
+    padding: 6px 10px;
+    margin-top: 4px;
+    background-color: #6e1b1be6;
+    border: 1px solid #ff5555;
+    border-radius: 3px;
+}
+
+.AlertBanner.IsAlert
+{
+    visibility: visible;
+}
+
+.AlertBannerText
+{
+    color: #ffd6d6;
+    font-size: 14px;
+    font-weight: bold;
+    horizontal-align: center;
+}
+
+.StatusBanner
+{
+    width: 100%;
+    padding: 6px 10px;
+    background-color: #1c2530;
+    border: 1px solid #3a4b5c;
+    border-radius: 3px;
+}
+
+.StatusBanner.InBase
+{
+    background-color: #163826e6;
+    border: 1px solid #4cd97b;
+}
+
+.StatusBannerText
+{
+    color: #c8d6e5;
+    font-size: 14px;
+    font-weight: bold;
+    horizontal-align: center;
+}
+
+.StatusBanner.InBase .StatusBannerText
+{
+    color: #7dffaa;
+}
+
+/* ========================================================================== */
+/* 2. CENTERED INTERACTIVE BASE SHOP DASHBOARD                                */
+/* ========================================================================== */
+.ShopDashboard
+{
+    visibility: collapse;
+    width: 860px;
+    horizontal-align: center;
+    vertical-align: center;
+    padding: 22px 26px;
+    flow-children: down;
+    background-color: #131b24f7;
+    border: 2px solid #d8ad52;
+    border-radius: 6px;
+}
+
+.ShopDashboard.IsOpen
+{
+    visibility: visible;
+}
+
+.ShopHeader
+{
+    width: 100%;
+    flow-children: right;
+    margin-bottom: 10px;
+}
+
+.ShopHeaderLeft
+{
+    width: fill-parent-flow(1.0);
+    flow-children: down;
+}
+
+.ShopTitle
+{
+    color: #e5b653;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.ShopSubTitle
+{
+    color: #9fb3c8;
+    font-size: 14px;
+    margin-top: 2px;
+}
+
+.ShopHeaderRight
+{
+    vertical-align: center;
+}
+
+.ShopCashBadge
+{
+    padding: 8px 16px;
+    background-color: #163826;
+    border: 1px solid #4cd97b;
+    border-radius: 4px;
+    color: #66e386;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.ShopDividerGold
+{
+    width: 100%;
+    height: 1px;
+    background-color: #d8ad5255;
+    margin-top: 8px;
+    margin-bottom: 12px;
+}
+
+.ShopColumns
+{
+    width: 100%;
+    flow-children: right;
+}
+
+.ShopColumn
+{
+    width: fill-parent-flow(1.0);
+    flow-children: down;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.ColumnHeader
+{
+    color: #d8ad52;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.ShopItemButton
+{
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    flow-children: right;
+    background-color: #1e2936;
+    border: 1px solid #324354;
+    border-radius: 4px;
+}
+
+.ShopItemButton:hover
+{
+    background-color: #2b3b4e;
+    border: 1px solid #e5b653;
+}
+
+.ShopItemButton.Selected
+{
+    background-color: #263829;
+    border: 1px solid #59d97c;
+}
+
+.PerkButton
+{
+    background-color: #1c2636;
+    border: 1px solid #384d6b;
+}
+
+.PerkButton:hover
+{
+    background-color: #293852;
+    border: 1px solid #e5b653;
+}
+
+.ShopItemLeft
+{
+    width: fill-parent-flow(1.0);
+    flow-children: down;
+    vertical-align: center;
+}
+
+.ShopItemTitle
+{
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.ShopItemDesc
+{
+    color: #9fb3c8;
+    font-size: 13px;
+    margin-top: 2px;
+}
+
+.ShopItemPrice
+{
+    color: #66e386;
+    font-size: 18px;
+    font-weight: bold;
+    vertical-align: center;
+}
+
+.ShopUtilityButton
+{
+    width: 100%;
+    padding: 12px 14px;
+    margin-top: 4px;
+    background-color: #2d2616;
+    border: 1px solid #d8ad52;
+    border-radius: 4px;
+}
+
+.ShopUtilityButton:hover
+{
+    background-color: #45391e;
+    border: 1px solid #ffda7b;
+}
+
+.ShopUtilityButtonText
+{
+    color: #ffe08a;
+    font-size: 15px;
+    font-weight: bold;
+    horizontal-align: center;
+    vertical-align: center;
+}
+
+.ShopFooter
+{
+    width: 100%;
+    flow-children: right;
+    margin-top: 4px;
+}
+
+.ShopFooterHint
+{
+    width: fill-parent-flow(1.0);
+    color: #8da2b8;
+    font-size: 14px;
+    vertical-align: center;
+}
+
+.CloseShopButton
+{
+    padding: 8px 24px;
+    background-color: #3b2020;
+    border: 1px solid #cc4b4b;
+    border-radius: 4px;
+}
+
+.CloseShopButton:hover
+{
+    background-color: #592b2b;
+    border: 1px solid #ff6b6b;
+}
+
+.CloseShopButtonText
+{
+    color: #ffdede;
+    font-size: 15px;
+    font-weight: bold;
+    horizontal-align: center;
+    vertical-align: center;
+}
+

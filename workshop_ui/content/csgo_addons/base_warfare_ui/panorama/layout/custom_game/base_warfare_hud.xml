@@ -1,0 +1,164 @@
+<root>
+    <styles>
+        <include src="s2r://panorama/styles/custom_game/base_warfare_hud.vcss_c" />
+    </styles>
+
+    <!-- Outermost root panel must NOT have an id attribute for custom_hud_layout -->
+    <Panel class="BaseWarfareRoot" hittest="false">
+
+        <!-- ================================================================== -->
+        <!-- 1. ALWAYS-VISIBLE 2D LEFT-SCREEN TACTICAL HUD (Like Screenshot 2)  -->
+        <!-- ================================================================== -->
+        <Panel id="LeftHudPanel" class="LeftHudCard" hittest="false">
+            <Panel class="LeftHudHeaderRow" hittest="false">
+                <Label class="LeftHudTitle" text="BASE WARFARE" hittest="false" />
+                <Label id="HudCashLabel" class="LeftHudCash" text="{s:hud_cash}" hittest="false" />
+            </Panel>
+
+            <Panel class="DividerLine" hittest="false" />
+
+            <Panel id="CtScoreRow" class="TeamRow CtRow" hittest="false">
+                <Label class="TeamBadge CtBadge" text="CT" hittest="false" />
+                <Label id="CtStatsLabel" class="TeamStatsText" text="{s:ct_stats}" hittest="false" />
+            </Panel>
+
+            <Panel id="TScoreRow" class="TeamRow TRow" hittest="false">
+                <Label class="TeamBadge TBadge" text="T" hittest="false" />
+                <Label id="TStatsLabel" class="TeamStatsText" text="{s:t_stats}" hittest="false" />
+            </Panel>
+
+            <!-- Base Capture Warning Banner (Shown via .IsAlert class when base is being captured) -->
+            <Panel id="AlertBanner" class="AlertBanner" hittest="false">
+                <Label id="AlertTextLabel" class="AlertBannerText" text="{s:alert_text}" hittest="false" />
+            </Panel>
+
+            <Panel class="DividerLine" hittest="false" />
+
+            <!-- Status / Shop Prompt Bar (Green in Home Base via .InBase class) -->
+            <Panel id="StatusBanner" class="StatusBanner" hittest="false">
+                <Label id="StatusTextLabel" class="StatusBannerText" text="{s:status_text}" hittest="false" />
+            </Panel>
+        </Panel>
+
+        <!-- ================================================================== -->
+        <!-- 2. INTERACTIVE CENTERED BASE SHOP DASHBOARD (Like Screenshot 1)    -->
+        <!-- ================================================================== -->
+        <Panel id="ShopOverlay" class="ShopDashboard">
+            <!-- Header -->
+            <Panel class="ShopHeader" hittest="false">
+                <Panel class="ShopHeaderLeft" hittest="false">
+                    <Label class="ShopTitle" text="BASE WARFARE  •  ARMORY &amp; PERKS" hittest="false" />
+                    <Label id="ShopSubTitle" class="ShopSubTitle" text="{s:shop_subtitle}" hittest="false" />
+                </Panel>
+                <Panel class="ShopHeaderRight" hittest="false">
+                    <Label id="ShopCashDisplay" class="ShopCashBadge" text="{s:shop_cash}" hittest="false" />
+                </Panel>
+            </Panel>
+
+            <Panel class="ShopDividerGold" hittest="false" />
+
+            <!-- Two-Column Content Area -->
+            <Panel class="ShopColumns" hittest="false">
+
+                <!-- LEFT COLUMN: WEAPONS -->
+                <Panel class="ShopColumn" hittest="false">
+                    <Label class="ColumnHeader" text="WEAPONS" hittest="false" />
+
+                    <Button id="buy_item_1" class="ShopItemButton">
+                        <Panel class="ShopItemLeft" hittest="false">
+                            <Label class="ShopItemTitle" text="1. AK-47" hittest="false" />
+                            <Label class="ShopItemDesc" text="Heavy Assault Rifle  •  One-Tap Headshot" hittest="false" />
+                        </Panel>
+                        <Label class="ShopItemPrice" text="$2,700" hittest="false" />
+                    </Button>
+
+                    <Button id="buy_item_2" class="ShopItemButton">
+                        <Panel class="ShopItemLeft" hittest="false">
+                            <Label class="ShopItemTitle" text="2. M4A1-S" hittest="false" />
+                            <Label class="ShopItemDesc" text="Silenced Carbine  •  High Precision" hittest="false" />
+                        </Panel>
+                        <Label class="ShopItemPrice" text="$2,900" hittest="false" />
+                    </Button>
+
+                    <Button id="buy_item_3" class="ShopItemButton">
+                        <Panel class="ShopItemLeft" hittest="false">
+                            <Label class="ShopItemTitle" text="3. AWP" hittest="false" />
+                            <Label class="ShopItemDesc" text="Bolt-Action Sniper  •  Lethal Stopping Power" hittest="false" />
+                        </Panel>
+                        <Label class="ShopItemPrice" text="$4,750" hittest="false" />
+                    </Button>
+
+                    <Button id="buy_item_4" class="ShopItemButton">
+                        <Panel class="ShopItemLeft" hittest="false">
+                            <Label class="ShopItemTitle" text="4. Desert Eagle" hittest="false" />
+                            <Label class="ShopItemDesc" text="Hand Cannon  •  High-Caliber Sidearm" hittest="false" />
+                        </Panel>
+                        <Label class="ShopItemPrice" text="$700" hittest="false" />
+                    </Button>
+
+                    <Button id="buy_item_5" class="ShopItemButton">
+                        <Panel class="ShopItemLeft" hittest="false">
+                            <Label class="ShopItemTitle" text="5. MP9 + Kevlar" hittest="false" />
+                            <Label class="ShopItemDesc" text="High-ROF SMG  •  Includes Body Armor" hittest="false" />
+                        </Panel>
+                        <Label class="ShopItemPrice" text="$1,250" hittest="false" />
+                    </Button>
+                </Panel>
+
+                <!-- RIGHT COLUMN: COMBAT PERKS -->
+                <Panel class="ShopColumn" hittest="false">
+                    <Label class="ColumnHeader" text="COMBAT PERKS (ACTIVE UNTIL DEATH)" hittest="false" />
+
+                    <Button id="buy_item_6" class="ShopItemButton PerkButton">
+                        <Panel class="ShopItemLeft" hittest="false">
+                            <Label class="ShopItemTitle" text="6. Speed Boost (1.35x)" hittest="false" />
+                            <Label class="ShopItemDesc" text="+35% Faster Sprint &amp; Strafe Speed" hittest="false" />
+                        </Panel>
+                        <Label class="ShopItemPrice" text="$2,000" hittest="false" />
+                    </Button>
+
+                    <Button id="buy_item_7" class="ShopItemButton PerkButton">
+                        <Panel class="ShopItemLeft" hittest="false">
+                            <Label class="ShopItemTitle" text="7. Juggernaut (225 HP)" hittest="false" />
+                            <Label class="ShopItemDesc" text="225 Health + Full Kevlar &amp; Helmet" hittest="false" />
+                        </Panel>
+                        <Label class="ShopItemPrice" text="$3,000" hittest="false" />
+                    </Button>
+
+                    <Button id="buy_item_8" class="ShopItemButton PerkButton">
+                        <Panel class="ShopItemLeft" hittest="false">
+                            <Label class="ShopItemTitle" text="8. Vampire (+35 HP/Kill)" hittest="false" />
+                            <Label class="ShopItemDesc" text="Restore +35 HP Instantly on Every Kill" hittest="false" />
+                        </Panel>
+                        <Label class="ShopItemPrice" text="$2,500" hittest="false" />
+                    </Button>
+
+                    <Button id="buy_item_9" class="ShopItemButton PerkButton">
+                        <Panel class="ShopItemLeft" hittest="false">
+                            <Label class="ShopItemTitle" text="9. Moon Gravity (0.55x)" hittest="false" />
+                            <Label class="ShopItemDesc" text="Low Gravity for Elevated Jump Mobility" hittest="false" />
+                        </Panel>
+                        <Label class="ShopItemPrice" text="$1,500" hittest="false" />
+                    </Button>
+
+                    <!-- Quick Test Cash Button -->
+                    <Button id="btn_grant_cash" class="ShopUtilityButton">
+                        <Label class="ShopUtilityButtonText" text="+ GRANT $30,000 TEST CASH (!cash)" hittest="false" />
+                    </Button>
+                </Panel>
+
+            </Panel>
+
+            <Panel class="ShopDividerGold" hittest="false" />
+
+            <!-- Footer -->
+            <Panel class="ShopFooter" hittest="false">
+                <Label class="ShopFooterHint" text="Click any item to buy  •  [W/S] Select &amp; [E] Buy  •  [R] Open / Close Shop" hittest="false" />
+                <Button id="btn_close_shop" class="CloseShopButton">
+                    <Label class="CloseShopButtonText" text="CLOSE [R]" hittest="false" />
+                </Button>
+            </Panel>
+        </Panel>
+
+    </Panel>
+</root>

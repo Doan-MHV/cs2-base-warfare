@@ -1,0 +1,20 @@
+# Ignore 60GB+ CS2 dedicated server binaries & SteamCMD files
+/game/*
+!/game/csgo/
+/game/csgo/*
+!/game/csgo/cfg/
+/game/csgo/cfg/*
+!/game/csgo/cfg/multiaddonmanager/
+!/game/csgo/addons/
+/game/csgo/addons/*
+!/game/csgo/addons/counterstrikesharp/
+/game/csgo/addons/counterstrikesharp/*
+!/game/csgo/addons/counterstrikesharp/configs/
+/game/csgo/addons/counterstrikesharp/configs/*
+!/game/csgo/addons/counterstrikesharp/configs/admins.json
+/steamapps/
+/installscript.vdf
+
+# Ignore .NET build artifacts
+**/bin/
+**/obj/
